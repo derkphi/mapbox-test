@@ -1,5 +1,7 @@
 import React from 'react';
-import ReactMapGL, {Marker, Source, Layer} from 'react-map-gl';
+import ReactMapGL, {Marker, Source, Layer, NavigationControl, GeolocateControl} from 'react-map-gl';
+import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css';
@@ -53,14 +55,61 @@ function Map() {
     'properties': {}
   };
 
+  const marks = [
+    {
+      value: -180,
+      label: '-180°'
+    },
+    {
+      value: -90,
+      label: '-90°'
+    },
+    {
+      value: 0,
+      label: '0°'
+    },
+    {
+      value: 90,
+      label: '90°'
+    },
+    {
+      value: 180,
+      label: '180°'
+    }
+  ];
+
   const [viewport, setViewport] = React.useState({
     latitude: 46.96601,
     longitude: 7.41143,
-    zoom: 14
+    zoom: 14,
+    bearing: 0
   });
+
+  const adjustBaring = (bearing) => {
+    console.log(bearing)
+    setViewport({
+      ...viewport,
+      bearing: bearing
+    })
+  };
 
   return (
     <>
+    <div id="slider">
+        <Typography id="discrete-slider-always" gutterBottom>
+          Bearing
+        </Typography>
+        <Slider
+          defaultValue={0}
+          aria-labelledby="discrete-slider-always"
+          step={5}
+          marks={marks}
+          min={-180}
+          max={180}
+          valueLabelDisplay="auto"
+          onChangeCommitted={(event, sliderVal) => adjustBaring(sliderVal)}
+        />
+      </div>
       <div className="map__container">
         <ReactMapGL
           //mapStyle='mapbox://styles/mapbox/streets-v11'
@@ -101,6 +150,8 @@ function Map() {
               }}
             />
           </Source>
+          <GeolocateControl />
+          <NavigationControl />
         </ReactMapGL>
       </div>
     </>
