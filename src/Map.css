@@ -1,5 +1,6 @@
 
 .map__container {
+  position: relative;
   width: 100vw;
   height: 90vw;
 }
@@ -9,3 +10,10 @@
   padding-left:30px;
   padding-right:30px;
 }
+
+.distance-container {
+  position: absolute;
+  top: 10px;
+  left: 60px;
+  z-index: 1;
+  }

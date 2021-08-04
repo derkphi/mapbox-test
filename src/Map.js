@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMapGL, {Marker, Source, Layer, NavigationControl, GeolocateControl} from 'react-map-gl';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
+import { length as turfLength } from '@turf/turf';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './Map.css';
@@ -55,6 +56,8 @@ function Map() {
     'properties': {}
   };
 
+  let distance = turfLength(polyline).toLocaleString();
+
   const marks = [
     {
       value: -180,
@@ -95,7 +98,7 @@ function Map() {
 
   return (
     <>
-    <div id="slider">
+      <div id="slider">
         <Typography id="discrete-slider-always" gutterBottom>
           Bearing
         </Typography>
@@ -111,6 +114,7 @@ function Map() {
         />
       </div>
       <div className="map__container">
+      <div id="distance" class="distance-container">{distance} km</div>
         <ReactMapGL
           //mapStyle='mapbox://styles/mapbox/streets-v11'
           //mapStyle="https://s3.amazonaws.com/cdn.brianbancroft.io/assets/osmstyle.json"
